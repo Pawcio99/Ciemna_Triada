@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syndrom Sodomy — Analiza Zjawisk Społeczno-Psychologicznych</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ===================== RESET & TOKENS ===================== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        #1c1410;
+    --ink-soft:   #3d2e24;
+    --ink-muted:  #7a6455;
+    --parchment:  #f7f3ec;
+    --cream:      #ede8df;
+    --warm-white: #faf8f4;
+    --accent:     #8b1a1a;
+    --accent-lt:  #b52a2a;
+    --accent-pale:#f2e6e6;
+    --gold:       #c9952a;
+    --gold-pale:  #faf3e0;
+    --rule:       rgba(139,26,26,0.25);
+    --shadow-sm:  0 1px 4px rgba(28,20,16,0.08);
+    --shadow-md:  0 4px 20px rgba(28,20,16,0.12);
+    --shadow-lg:  0 8px 40px rgba(28,20,16,0.15);
+    --col-main:   680px;
+    --col-wide:   780px;
+    --col-full:   960px;
+    --font-body:  'Source Serif 4', Georgia, serif;
+    --font-head:  'Playfair Display', 'Times New Roman', serif;
+    --font-mono:  'JetBrains Mono', monospace;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--warm-white);
+    color: var(--ink);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ===================== PROGRESS BAR ===================== */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    z-index: 1000; width: 0%; transition: width 0.1s linear;
+  }
+
+  /* ===================== HEADER ===================== */
+  .doc-header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 80px 40px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 40px,
+      rgba(201,149,42,0.03) 40px, rgba(201,149,42,0.03) 41px
+    );
+  }
+  .doc-header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 3px;
+    background: var(--gold);
+  }
+  .journal-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+  .doc-header h1 {
+    font-family: var(--font-head);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto 16px;
+    letter-spacing: -0.01em;
+  }
+  .doc-header .subtitle {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: rgba(247,243,236,0.7);
+    max-width: 560px;
+    margin: 0 auto 40px;
+  }
+  .meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px 40px;
+    margin-top: 36px;
+    font-size: 0.82rem;
+    color: rgba(247,243,236,0.55);
+  }
+  .meta-grid span { font-family: var(--font-mono); letter-spacing: 0.05em; }
+  .meta-grid b { color: rgba(247,243,236,0.85); font-weight: 500; }
+
+  /* ===================== ABSTRACT BAND ===================== */
+  .abstract-band {
+    background: var(--accent);
+    color: #fff;
+    padding: 36px 40px;
+    text-align: center;
+  }
+  .abstract-band .abstract-inner {
+    max-width: var(--col-main);
+    margin: 0 auto;
+  }
+  .abstract-band .abstract-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+  .abstract-band p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    opacity: 0.92;
+  }
+  .keywords {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+  }
+  .keywords b { opacity: 0.9; }
+
+  /* ===================== TOC ===================== */
+  .toc-wrapper {
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 32px 40px;
+  }
+  .toc-inner {
+    max-width: var(--col-full);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 60px;
+    align-items: start;
+  }
+  .toc-title {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    align-self: center;
+  }
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px 40px;
+  }
+  .toc-list li a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink-soft);
+    font-size: 0.87rem;
+    line-height: 1.5;
+    padding: 4px 0;
+    border-bottom: 1px dashed transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .toc-list li a:hover { color: var(--accent); border-bottom-color: var(--rule); }
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    opacity: 0.7;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ===================== MAIN LAYOUT ===================== */
+  .doc-body {
+    max-width: var(--col-full);
+    margin: 0 auto;
+    padding: 0 40px 80px;
+  }
+
+  .content-col {
+    max-width: var(--col-main);
+    margin: 0 auto;
+  }
+
+  /* ===================== SECTIONS ===================== */
+  .section {
+    padding-top: 72px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section.visible { opacity: 1; transform: translateY(0); }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  h2.section-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--accent);
+    position: relative;
+  }
+  h2.section-title::after {
+    content: '';
+    position: absolute; bottom: -2px; left: 0;
+    width: 40px; height: 2px;
+    background: var(--gold);
+  }
+
+  h3.sub-title {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin: 36px 0 14px;
+    font-style: italic;
+  }
+
+  p {
+    margin-bottom: 1.3em;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
+
+  /* ===================== FOOTNOTES INLINE ===================== */
+  .fn-ref {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    background: var(--accent-pale);
+    border: 1px solid rgba(139,26,26,0.2);
+    border-radius: 3px;
+    padding: 0 4px;
+    margin: 0 1px;
+    cursor: pointer;
+    vertical-align: super;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+  }
+  .fn-ref:hover { background: var(--accent); color: #fff; }
+
+  /* ===================== PULLQUOTE ===================== */
+  .pullquote {
+    margin: 40px -40px;
+    padding: 32px 60px;
+    background: var(--cream);
+    border-left: 4px solid var(--accent);
+    border-right: 4px solid var(--accent);
+    position: relative;
+  }
+  .pullquote::before {
+    content: '\201C';
+    font-family: var(--font-head);
+    font-size: 6rem;
+    color: var(--accent);
+    opacity: 0.15;
+    position: absolute;
+    top: -10px; left: 16px;
+    line-height: 1;
+  }
+  .pullquote p {
+    font-family: var(--font-head);
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-soft);
+    text-align: center;
+    margin: 0;
+    line-height: 1.65;
+  }
+  .pullquote cite {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-style: normal;
+    color: var(--ink-muted);
+    letter-spacing: 0.05em;
+    text-align: right;
+  }
+
+  /* ===================== CALLOUT BOX ===================== */
+  .callout {
+    margin: 32px 0;
+    padding: 24px 28px;
+    border-radius: 2px;
+    position: relative;
+  }
+  .callout.definition {
+    background: var(--gold-pale);
+    border-left: 4px solid var(--gold);
+  }
+  .callout.warning {
+    background: var(--accent-pale);
+    border-left: 4px solid var(--accent);
+  }
+  .callout.insight {
+    background: #eef4ee;
+    border-left: 4px solid #4a7c4a;
+  }
+  .callout-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .callout.definition .callout-label { color: #8a6200; }
+  .callout.warning .callout-label { color: var(--accent); }
+  .callout.insight .callout-label { color: #2d5a2d; }
+  .callout p { margin: 0; font-size: 0.92rem; line-height: 1.7; }
+
+  /* ===================== DARK TRIAD TABLE ===================== */
+  .triad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 32px 0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .triad-cell {
+    background: var(--warm-white);
+    padding: 24px 20px;
+  }
+  .triad-cell:first-child { background: #fdf5f5; }
+  .triad-name {
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .triad-greek {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .triad-cell p { font-size: 0.87rem; line-height: 1.65; margin: 0; color: var(--ink-soft); }
+
+  /* ===================== FOOTNOTES PANEL ===================== */
+  #footnotes-panel {
+    position: fixed;
+    right: 20px; bottom: 20px;
+    width: 360px;
+    max-height: 260px;
+    background: var(--ink);
+    color: var(--parchment);
+    border-radius: 4px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 900;
+  }
+  #footnotes-panel.active {
+    opacity: 1; transform: translateY(0); pointer-events: all;
+  }
+  .fn-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .fn-panel-header span {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  #fn-close {
+    background: none; border: none; color: rgba(255,255,255,0.4);
+    cursor: pointer; font-size: 1rem; line-height: 1;
+    transition: color 0.15s;
+  }
+  #fn-close:hover { color: #fff; }
+  #fn-content {
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 200px;
+  }
+  #fn-content p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: rgba(247,243,236,0.85);
+    margin: 0;
+    text-align: left;
+  }
+  #fn-content .fn-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+    margin-right: 6px;
+  }
+  #fn-content .fn-source {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(247,243,236,0.4);
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* ===================== FOOTNOTES SECTION ===================== */
+  .references-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid var(--ink);
+  }
+  .references-section h2 {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+  }
+  .ref-list {
+    list-style: none;
+    counter-reset: ref-counter;
+  }
+  .ref-list li {
+    counter-increment: ref-counter;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 0.87rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .ref-list li::before {
+    content: counter(ref-counter);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent);
+    min-width: 22px;
+    padding-top: 3px;
+    opacity: 0.8;
+  }
+  .ref-list em { font-style: italic; }
+  .ref-list .doi {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ===================== LICENSE FOOTER ===================== */
+  .license-footer {
+    background: var(--ink);
+    color: rgba(247,243,236,0.6);
+    padding: 40px;
+    margin-top: 0;
+  }
+  .license-inner {
+    max-width: var(--col-full);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px 36px;
+    align-items: start;
+  }
+  .cc-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .cc-icon-row {
+    display: flex;
+    gap: 4px;
+  }
+  .cc-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.2);
+  }
+  .cc-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .license-text h4 {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .license-text p {
+    font-size: 0.8rem;
+    line-height: 1.7;
+    text-align: left;
+    margin-bottom: 8px;
+  }
+  .license-text p:last-child { margin-bottom: 0; }
+
+  /* ===================== STICKY NAV ===================== */
+  #sticky-nav {
+    position: fixed;
+    top: 3px; left: 0; right: 0;
+    background: rgba(28,20,16,0.95);
+    backdrop-filter: blur(8px);
+    padding: 0 40px;
+    z-index: 800;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    border-bottom: 1px solid rgba(201,149,42,0.2);
+  }
+  #sticky-nav.visible { transform: translateY(0); }
+  .nav-inner {
+    max-width: var(--col-full);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-inner a {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(247,243,236,0.45);
+    text-decoration: none;
+    padding: 14px 16px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-inner a:hover,
+  .nav-inner a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ===================== SECTION DIVIDER ===================== */
+  .section-rule {
+    text-align: center;
+    margin: 48px 0 0;
+    color: var(--rule);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 700px) {
+    .doc-body { padding: 0 20px 60px; }
+    .pullquote { margin: 32px 0; padding: 24px 28px; }
+    .triad-grid { grid-template-columns: 1fr; }
+    .toc-inner { grid-template-columns: 1fr; }
+    .toc-title { writing-mode: horizontal-tb; transform: none; }
+    .license-inner { grid-template-columns: 1fr; }
+    #footnotes-panel { width: calc(100vw - 32px); right: 16px; }
+  }
+
+  /* ===================== PRINT ===================== */
+  @media print {
+    #progress-bar, #sticky-nav, #footnotes-panel { display: none; }
+    .section { opacity: 1; transform: none; }
+    .pullquote { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- STICKY NAV -->
+<nav id="sticky-nav" aria-label="Nawigacja dokumentu">
+  <div class="nav-inner">
+    <a href="#abstract">Abstrakt</a>
+    <a href="#intro">Wprowadzenie</a>
+    <a href="#methods">Materiały</a>
+    <a href="#results">Wyniki</a>
+    <a href="#discussion">Dyskusja</a>
+    <a href="#conclusion">Wnioski</a>
+    <a href="#references">Literatura</a>
+  </div>
+</nav>
+
+<!-- FOOTNOTE PANEL -->
+<div id="footnotes-panel" role="tooltip" aria-live="polite">
+  <div class="fn-panel-header">
+    <span>Przypis</span>
+    <button id="fn-close" aria-label="Zamknij">&times;</button>
+  </div>
+  <div id="fn-content"></div>
+</div>
+
+<!-- =================== HEADER =================== -->
+<header class="doc-header">
+  <div class="journal-label">Psychologia Społeczna &middot; Analiza Strukturalna &middot; 2025</div>
+  <h1>Syndrom Sodomy:<br>Pasożytnictwo społeczne, ciemna triada osobowości<br>i ochrona sfery nefesz</h1>
+  <p class="subtitle">Analiza zjawisk społeczno-psychologicznych w perspektywie strukturalnej, biblijno-symbolicznej i psychiatrycznej</p>
+  <div class="meta-grid">
+    <span><b>Typ:</b> Artykuł poglądowy / Review</span>
+    <span><b>Struktura:</b> IMRAD</span>
+    <span><b>Język:</b> Polski</span>
+    <span><b>Licencja:</b> CC BY-NC-ND 4.0</span>
+    <span><b>Data:</b> 2025</span>
+  </div>
+</header>
+
+<!-- =================== ABSTRACT =================== -->
+<section id="abstract" class="abstract-band">
+  <div class="abstract-inner">
+    <div class="abstract-label">Streszczenie / Abstract</div>
+    <p>Artykuł analizuje mechanizm społecznego pasożytnictwa narracyjnego jako zjawiska strukturalnego, nie indywidualnego. Autorzy opisują konfigurację cech osobowości określaną jako <em>ciemna triada</em> (narcyzm, makiawelizm, psychopatia subkliniczna) oraz warunki środowiskowe, które przekształcają te cechy z marginalnych w dominujące wzorce kulturowe. Zjawisko osadzone jest w kontekście polskiego środowiska społecznego charakteryzującego się niskim zaufaniem instytucjonalnym (ok. 20% wskaźnik zaufania społecznego wg Eurobarometru) oraz w perspektywie symbolicznej tradycji biblijnej — motywu Sodomy jako stanu systemowego, pojęcia <em>nefesz</em> (hebr. siła witalna) oraz sceny umywania nóg jako etycznego modelu ochrony autonomii drugiego człowieka. Technologia cyfrowa jest omówiona jako czynnik multiplikujący patologie narracyjne. Artykuł proponuje operacyjne kryteria odporności indywidualnej i wspólnotowej.</p>
+    <div class="keywords">
+      <b>Słowa kluczowe:</b> ciemna triada &middot; schadenfreude &middot; pasożytnictwo narracyjne &middot; patologia strukturalna &middot; nefesz &middot; zaufanie społeczne &middot; Sodoma &middot; autonomia &middot; psychologia społeczna
+    </div>
+  </div>
+</section>
+
+<!-- =================== TOC =================== -->
+<div class="toc-wrapper">
+  <div class="toc-inner">
+    <div class="toc-title">Treść</div>
+    <ul class="toc-list">
+      <li><a href="#intro"><span class="toc-num">1.</span>Wprowadzenie</a></li>
+      <li><a href="#methods"><span class="toc-num">2.</span>Materiały i metody</a></li>
+      <li><a href="#results-triad"><span class="toc-num">3.1</span>Ciemna triada — profil</a></li>
+      <li><a href="#results-structure"><span class="toc-num">3.2</span>Patologia strukturalna</a></li>
+      <li><a href="#results-nefesh"><span class="toc-num">3.3</span>Nefesz i symbol nóg</a></li>
+      <li><a href="#results-tech"><span class="toc-num">3.4</span>Technologia jako wzmacniacz</a></li>
+      <li><a href="#results-poland"><span class="toc-num">3.5</span>Kontekst polski</a></li>
+      <li><a href="#discussion"><span class="toc-num">4.</span>Dyskusja</a></li>
+      <li><a href="#conclusion"><span class="toc-num">5.</span>Wnioski</a></li>
+      <li><a href="#references"><span class="toc-num">Lit.</span>Literatura</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- =================== BODY =================== -->
+<main class="doc-body">
+<div class="content-col">
+
+  <!-- 1. INTRODUCTION -->
+  <section id="intro" class="section">
+    <div class="section-label">Sekcja 1 &middot; Introduction</div>
+    <h2 class="section-title">Wprowadzenie</h2>
+
+    <p>Współczesne społeczeństwa doświadczają postępującego odwrócenia hierarchii wartości. To, co przez wieki stanowiło fundament zdrowych wspólnot — szczerość, życzliwość, odpowiedzialność, kompetencja — zaczyna być systemowo traktowane jako słabość lub naiwność.<a href="#" class="fn-ref" data-fn="1">1</a> Paradoks ten nie wynika z utraty wartości tych postaw, lecz ze zmiany mechanizmów nagradzania społecznego: w wielu środowiskach skuteczniejszą strategią adaptacyjną staje się kontrola przepływu informacji niż rzeczywista twórczość czy odpowiedzialność.<a href="#" class="fn-ref" data-fn="2">2</a></p>
+
+    <p>W literaturze psychologicznej opisana tendencja jest częściowo wyjaśniana przez teorię <em>ciemnej triady osobowości</em> (ang. <em>Dark Triad</em>), obejmującej narcyzm, makiawelizm i subkliniczną psychopatię.<a href="#" class="fn-ref" data-fn="3">3</a> Kluczowe dla niniejszej analizy jest jednak nie samo istnienie tych cech, lecz warunki strukturalne, które przekształcają je z marginalnych wzorców adaptacyjnych w dominujące style funkcjonowania całych środowisk.<a href="#" class="fn-ref" data-fn="4">4</a></p>
+
+    <p>Zjawisko posiada swoje odzwierciedlenie w zasobach tradycji biblijno-symbolicznej. Motyw Sodomy w prorockich tekstach hebrajskich nie odnosi się wyłącznie do jednostkowych wykroczeń seksualnych — jak bywa to spłycane w popularnych interpretacjach — lecz do <em>systemowego odwrócenia wartości</em>, w którym przemoc moralna staje się normą, a sprawiedliwość zagrożeniem dla porządku.<a href="#" class="fn-ref" data-fn="5">5</a> Równolegle, hebrajskie pojęcie <em>nefesz</em> — siły witalnej, konkretnego tchnienia realizującego się w działaniu i byciu-w-świecie — dostarcza antropologicznego tła dla analizy niszczenia autonomii i godności jednostki.<a href="#" class="fn-ref" data-fn="6">6</a></p>
+
+    <p>Celem niniejszego artykułu jest: (1) opisanie psychologicznego profilu zjawiska pasożytnictwa narracyjnego; (2) wskazanie mechanizmów strukturalnych je wzmacniających; (3) osadzenie zjawiska w kontekście polskim i technologicznym; (4) zaproponowanie etycznej oraz operacyjnej ramy odporności indywidualnej i wspólnotowej.</p>
+  </section>
+
+  <!-- 2. METHODS -->
+  <section id="methods" class="section">
+    <div class="section-label">Sekcja 2 &middot; Materials &amp; Methods</div>
+    <h2 class="section-title">Materiały i metody</h2>
+
+    <p>Artykuł ma charakter <strong>przeglądowy i analityczno-syntetyczny</strong>. Zastosowano metodę narracyjnego przeglądu literatury z zakresu psychologii osobowości, socjologii zaufania i psychiatrii. Uzupełniająco wykorzystano metodę analizy symbolicznej tekstów biblijnych w perspektywie hermeneutycznej, ze szczególnym uwzględnieniem tradycji interpretacji hebrajskiej (targum, midrasz).<a href="#" class="fn-ref" data-fn="7">7</a></p>
+
+    <p>Dane socjologiczne dotyczące zaufania społecznego zaczerpnięto z raportów Eurobarometru (edycje 2018–2023) oraz badań CBOS. Opisy kliniczne cech triady oparto na kryteriach DSM-5 oraz pracach Paulhusa i Williamsa<a href="#" class="fn-ref" data-fn="3">3</a> stanowiących kanoniczną literaturę w tym obszarze. Analiza fenomenu technologicznego opiera się na pracach z zakresu <em>infodemiologii</em> i nauk o komunikacji.<a href="#" class="fn-ref" data-fn="8">8</a></p>
+
+    <div class="callout definition">
+      <div class="callout-label">Nota terminologiczna</div>
+      <p>Termin <em>pasożytnictwo narracyjne</em> jest używany w artykule jako operacyjny konstrukt analityczny, nie zaś diagnoza kliniczna. Oznacza strategię budowania pozycji społecznej opartą na destrukcji reputacji, eksploatacji życia prywatnego i zarządzaniu emocjami zbiorowości zamiast na własnej twórczości czy kompetencji.</p>
+    </div>
+  </section>
+
+  <!-- 3. RESULTS -->
+  <section id="results-triad" class="section">
+    <div class="section-label">Sekcja 3 &middot; Results</div>
+    <h2 class="section-title">Wyniki: Psychologiczny profil zjawiska</h2>
+
+    <h3 class="sub-title">3.1 Ciemna triada — mechanizm wewnętrzny</h3>
+
+    <p>Paulhus i Williams<a href="#" class="fn-ref" data-fn="3">3</a> zdefiniowali <em>ciemną triadę</em> jako konfigurację trzech subklinicznych konstruktów osobowościowych, które — choć odrębne — współwystępują ze sobą statystycznie ponadprzypadkowo i łącznie predysponują do zachowań eksploatacyjnych. Ich kluczowym wspólnym mianownikiem jest <em>brak empatycznej orientacji na drugiego</em> przy zachowaniu pełnej funkcjonalności społecznej.</p>
+
+    <div class="triad-grid">
+      <div class="triad-cell">
+        <div class="triad-name">Narcyzm</div>
+        <span class="triad-greek">narcissistic personality — subkliniczny</span>
+        <p>Chroniczna kruchość obrazu własnej wartości stabilizowana przez degradację innych. Mechanizm: <em>schadenfreude</em> jako narzędzie regulacji emocjonalnej — cudzy upadek daje chwilowe poczucie wyższości.<a href="#" class="fn-ref" data-fn="9">9</a> W środowiskach społecznych manifestuje się krytyką, ośmieszaniem, podważaniem bez alternatywnej propozycji.</p>
+      </div>
+      <div class="triad-cell">
+        <div class="triad-name">Makiawelizm</div>
+        <span class="triad-greek">machiavellianism — instrumentalizacja</span>
+        <p>Chłodna kalkulacja, traktowanie ludzi i relacji jako środków do celu. Szczerość innych staje się zasobem do eksploatacji, zaufanie — okazją. W małych społecznościach makiawelik często zarządza nieformalnym obiegiem plotki jako formą władzy nieinstytucjonalnej.<a href="#" class="fn-ref" data-fn="10">10</a></p>
+      </div>
+      <div class="triad-cell">
+        <div class="triad-name">Psychopatia subkliniczna</div>
+        <span class="triad-greek">subclinical psychopathy — deficyt empatii</span>
+        <p>Deficyt empatii przy zachowaniu funkcjonalności. Cierpienie innych nie wywołuje współczucia — najwyżej ciekawość. Środowisko działania: miejsca z rozmytą odpowiedzialnością i opóźnionymi konsekwencjami. „To tylko słowa" jako typowe uzasadnienie.<a href="#" class="fn-ref" data-fn="11">11</a></p>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-label">Kluczowe spostrzeżenie — efekt środowiskowy</div>
+      <p>Cechy ciemnej triady same w sobie nie muszą dominować, by zjawisko się rozprzestrzeniało. Wystarczy, że <strong>środowisko zacznie je nagradzać</strong>. Gdy wspólnota premiuje spryt zamiast prawdy, skuteczność zamiast uczciwości — ciemna triada przestaje być marginesem i staje się dominującym stylem adaptacyjnym.<a href="#" class="fn-ref" data-fn="4">4</a></p>
+    </div>
+  </section>
+
+  <section id="results-structure" class="section">
+    <h3 class="sub-title">3.2 Patologia strukturalna — mechanizm systemowy</h3>
+
+    <p>Pojęcie <em>patologii strukturalnej</em> należy odróżnić od indywidualnej psychopatologii. Chodzi o system nagród i kar, który <em>systemowo odwraca</em> hierarchię wartości: pasożytnictwo staje się opłacalne, twórczość i lojalność — kosztowne.<a href="#" class="fn-ref" data-fn="12">12</a> Mechanizm jest prosty: jeśli konflikt generuje uwagę, a uwaga generuje zysk — konflikt zaczyna być produkowany. Jeśli manipulacja reputacją daje przewagę — manipulacja staje się kompetencją.</p>
+
+    <div class="pullquote">
+      <p>Najbardziej destrukcyjne jest to, że system ten nie potrzebuje wielkiej skali, by działać. Wystarczy kilka osób o takich cechach w kluczowych węzłach relacyjnych, by zatruć całość. Reszta dostosowuje się z lęku lub zmęczenia.</p>
+      <cite>— mechanizm opisany przez Hare &amp; Babiak (2006) w kontekście środowisk korporacyjnych<a href="#" class="fn-ref" data-fn="13">13</a></cite>
+    </div>
+
+    <p>Zjawisko to nie jest ograniczone do korporacji czy wielkiej polityki. Działa na każdym poziomie organizacji społecznej: w rodzinie (chroniczna krytyka maskująca potrzebę dominacji), w parafii (moralizowanie bez empatii jako forma władzy), w miejscu pracy (plotka zamiast kompetencji), w małej społeczności (zarządzanie obiegiem narracji jako nieformalna władza).</p>
+
+    <p>W tradycji biblijnej podobny stan opisywany jest symbolem <strong>Sodomy</strong> — nie jako miasto grzechu seksualnego, lecz jako <em>model społeczny</em>, w którym dobro jest zagrożeniem dla układu, a zło — funkcjonalne i opłacalne.<a href="#" class="fn-ref" data-fn="5">5</a> Prorocy hebrajscy (Ez 16,49-50; Iz 1,9-10; Am 4,11) interpretują Sodomę jako symbol systemowej obojętności na słabszych i przemocy moralnej jako normy kulturowej — nie zaś jako opis jednostkowych czynów.</p>
+  </section>
+
+  <section id="results-nefesh" class="section">
+    <h3 class="sub-title">3.3 Nefesz — ochrona siły witalnej i symbol nóg</h3>
+
+    <p>Hebrajskie pojęcie <em>nefesz</em> (נֶפֶשׁ) jest zwykle tłumaczone jako „dusza", jednak oddaje ono coś znacznie bardziej konkretnego: <em>siłę witalną realizującą się w ciele i działaniu</em>.<a href="#" class="fn-ref" data-fn="6">6</a> Nefesz to tchnienie, które wyraża się w chodzeniu, pracy, zmaganiu z rzeczywistością, budowaniu relacji — w tym, co składa się na egzystencję człowieka w wymiarze ziemskim.</p>
+
+    <p>Nogi, łącząc człowieka z ziemią, stanowią w tej symbolice obraz drogi życiowej — tego, co człowiek robi ze swoją siłą witalną, dokąd zmierza, co buduje. <strong>Niszczenie nefesz</strong> (reputacji, możliwości, relacji, prywatności) to zamach na prawo człowieka do realizacji swojej egzystencji.<a href="#" class="fn-ref" data-fn="14">14</a></p>
+
+    <div class="callout insight">
+      <div class="callout-label">Interpretacja symboliczna — J 13,1-15</div>
+      <p>Scena umywania nóg w Ewangelii Jana (J 13,1-15) zyskuje w tym kontekście wymiar etyczny wykraczający poza rytuał gościnności. Jezus — postać obdarzona autorytetem — klęka i myje nogi uczniom: troszczy się o ich <em>drogę</em>, o zdolność do dalszego działania i bycia. Jest to radykalny model relacji oparty na <em>dbaniu o czyjąś nefesz</em>, zamiast na jej eksploatacji.</p>
+    </div>
+
+    <p>„Umywanie nóg" w perspektywie współczesnej oznacza operacyjnie: ochronę czyjejś drogi przed błotem manipulacji, plotki i narracyjnego pasożytnictwa. <strong>Na nefesz nastaje ten, kto żyje cudzym kosztem</strong> — kto zamiast budować własną wartość, niszczy zdolność drugiego do realizacji jego egzystencji. W tradycji biblijnej tę zasadę destrukcji personifikuje postać szatana (Hiob 1-2) — jako ta, która dąży do wykazania, że człowiek służący prawdzie i życiu uczyni to tylko wtedy, gdy mu się to opłaci.<a href="#" class="fn-ref" data-fn="15">15</a></p>
+  </section>
+
+  <section id="results-tech" class="section">
+    <h3 class="sub-title">3.4 Technologia cyfrowa jako czynnik multiplikujący</h3>
+
+    <p>Narzędzia komunikacji cyfrowej radykalnie zwiększają zasięg i szybkość opisywanych patologii. Reputację można zniszczyć szybciej niż ją zbudować; kłamstwo okrąża świat, zanim prawda zdąży się uformować.<a href="#" class="fn-ref" data-fn="8">8</a> Kontrola nad emocjami zbiorowości staje się potężniejsza od kontroli nad faktami.</p>
+
+    <p>Szczególnym fenomenem są środowiska, które można opisać jako <em>szkoły deprawacji</em>: struktury korporacyjne i polityczne, w których gratyfikacje finansowe i statusowe systematycznie nagradzają makiaweliczne zarządzanie narracją.<a href="#" class="fn-ref" data-fn="13">13</a> Jednostki uczą się, że „zarządzanie emocjami tłumu" jest bardziej opłacalną umiejętnością niż kompetencja merytoryczna czy lojalność.</p>
+
+    <p>Najbardziej podatni na manipulację są ci, którzy rezygnują z wysiłku samodzielnego myślenia. Krytyczne myślenie wymaga pracy kognitywnej; szybka emocja — w szczególności schadenfreude i moralne oburzenie — nie wymaga niczego.<a href="#" class="fn-ref" data-fn="16">16</a> Masowe upowszechnienie narzędzi komunikacji stworzyło więc środowisko, w którym <em>vampiryzm narracyjny</em> (eksploatacja prywatności i reputacji innych dla własnej gratyfikacji lub korzyści) stał się dostępny każdemu.</p>
+  </section>
+
+  <section id="results-poland" class="section">
+    <h3 class="sub-title">3.5 Kontekst polski: kryzys zaufania społecznego</h3>
+
+    <p>Polska charakteryzuje się jednym z najniższych wskaźników zaufania społecznego w Europie. Badania Eurobarometru (2022) wskazują, że jedynie ok. 20% Polaków deklaruje zaufanie do innych ludzi — wobec średniej unijnej ok. 40% i wartości skandynawskich sięgających 60–70%.<a href="#" class="fn-ref" data-fn="17">17</a> Dane CBOS potwierdzają tę tendencję i wskazują na jej względną stabilność w ciągu ostatnich dekad.</p>
+
+    <p>Środowisko niskiego zaufania wzajemnego tworzy idealne warunki dla opisywanych patologii: plotka uchodzi za wiarygodną informację, reputacja jest krucha i łatwa do zniszczenia, a mechanizmy obrony przed manipulacją narracyjną są słabe. <strong>Zjawisko to weszło do polskich rodzin, domów i małych wspólnot</strong> — nie jest domeną wyłącznie mediów czy wielkiej polityki.</p>
+
+    <div class="callout warning">
+      <div class="callout-label">Obserwacja socjologiczna</div>
+      <p>W środowiskach o niskim zaufaniu instytucjonalnym i wzajemnym mechanizm ciemnej triady ma efekt „zarażania normy": gdy jednostki z cechami triady zajmują kluczowe węzły relacyjne, otoczenie dostosowuje się z lęku lub zmęczenia. Tak rodzi się <em>zło strukturalne</em> — bez ideologii, bez krzyku, za to z codzienną konsekwencją.</p>
+    </div>
+  </section>
+
+  <!-- 4. DISCUSSION -->
+  <section id="discussion" class="section">
+    <div class="section-label">Sekcja 4 &middot; Discussion</div>
+    <h2 class="section-title">Dyskusja</h2>
+
+    <p>Nakreślony obraz wymaga pewnych zastrzeżeń. Po pierwsze, niniejsza analiza nie jest próbą patologizacji jednostek ani stygmatyzowania konkretnych środowisk. Jest próbą opisania <em>mechanizmu</em> — niezależnego od oceny moralnej poszczególnych aktorów.<a href="#" class="fn-ref" data-fn="4">4</a></p>
+
+    <p>Po drugie, struktury oparte na schadenfreude i rywalizacji narracyjnej mają <em>wbudowaną niestabilność</em>. Zjadają kapitał zaufania, który jest podstawą każdej trwałej wspólnoty. Bez zaufania nie ma współpracy, bez współpracy nie ma cywilizacyjnej trwałości.<a href="#" class="fn-ref" data-fn="18">18</a> W języku biblijnym ten stan nazywany jest „żniwem" — nie jako kara zewnętrzna, lecz jako naturalna konsekwencja: implozja instytucji, chaos informacyjny, utrata sensu pracy i wysiłku.</p>
+
+    <p>Po trzecie, kwestia narzędzi technologicznych wymaga niuansowania: ta sama infrastruktura, która umożliwia pasożytnictwo narracyjne, umożliwia też dostęp do wiedzy, budowanie niezależnych wspólnot i publikowanie bez cenzury instytucjonalnej.<a href="#" class="fn-ref" data-fn="8">8</a> Narzędzie nie ma moralności — ma ją użytkownik i struktura systemu, który go nagradza.</p>
+
+    <div class="pullquote">
+      <p>Cywilizacje rzadko giną od ciosu z zewnątrz. Zwykle zapadają się pod własnym ciężarem, gdy nagradzają tych, którzy niszczą, i karzą tych, którzy podtrzymują życie.</p>
+      <cite>— por. Toynbee, <em>A Study of History</em> (1934–1961), w interpretacji Zborowskiego (2019)<a href="#" class="fn-ref" data-fn="19">19</a></cite>
+    </div>
+
+    <p>Prawdziwa odporność społeczna nie polega na cynizmie — lecz na zdolności rozpoznawania wzorców i <em>świadomym</em> niewchodzeniu w ich grę. Tam, gdzie schadenfreude przestaje być walutą relacyjną, a wraca odpowiedzialność za słowo i relację — opisywane wzorce tracą strukturalne wsparcie i przestają być atrakcyjne adaptacyjnie.</p>
+  </section>
+
+  <!-- 5. CONCLUSION -->
+  <section id="conclusion" class="section">
+    <div class="section-label">Sekcja 5 &middot; Conclusion</div>
+    <h2 class="section-title">Wnioski</h2>
+
+    <p>Na podstawie przeprowadzonej analizy formułujemy następujące wnioski operacyjne:</p>
+
+    <p><strong>W.1.</strong> Pasożytnictwo narracyjne jest zjawiskiem strukturalnym, nie jedynie indywidualnym. Jego nasilenie zależy w decydującej mierze od systemu nagród i kar obowiązującego w danym środowisku.<a href="#" class="fn-ref" data-fn="4">4</a></p>
+
+    <p><strong>W.2.</strong> Ciemna triada osobowości dostarcza psychologicznego modelu dla rozumienia profilu jednostek aktywnie wykorzystujących opisane mechanizmy. Jednak ich skuteczność zależy od pasywności otoczenia, nie wyłącznie od ich własnych cech.<a href="#" class="fn-ref" data-fn="3">3</a></p>
+
+    <p><strong>W.3.</strong> Pojęcie nefesz i symbol umywania nóg oferują nie tylko wymiar symboliczno-religijny, lecz operacyjną definicję etyczną: <em>chronić czyjąś drogę</em> to nie podawać dalej niesprawdzonych oskarżeń, nie uczestniczyć w nagonce, stać po stronie faktów.<a href="#" class="fn-ref" data-fn="6">6</a></p>
+
+    <p><strong>W.4.</strong> Środowisko polskie, charakteryzując się strukturalnie niskim zaufaniem społecznym, jest szczególnie podatne na opisywane mechanizmy. Zjawisko nie jest ograniczone do mediów ani polityki — przenika życie rodzinne i wspólnotowe.<a href="#" class="fn-ref" data-fn="17">17</a></p>
+
+    <p><strong>W.5.</strong> Technologia cyfrowa pełni rolę mnożnikową — zarówno patologii, jak i potencjalnych mechanizmów odporności. Decydujące znaczenie ma świadomość użytkownika i struktura instytucjonalna, nie samo narzędzie.<a href="#" class="fn-ref" data-fn="8">8</a></p>
+
+    <div class="callout insight">
+      <div class="callout-label">Postulat badawczy</div>
+      <p>Konieczne jest dalsze badanie związku między niskim zaufaniem społecznym a podatnością na manipulacje narracyjne na poziomie mikrowspólnot (rodzina, parafia, małe miasto) w warunkach polskich — obszar dotychczas niedostatecznie reprezentowany w literaturze socjologicznej.</p>
+    </div>
+
+    <div class="section-rule">&bull; &bull; &bull;</div>
+  </section>
+
+  <!-- REFERENCES -->
+  <section id="references" class="section references-section">
+    <h2>Literatura cytowana</h2>
+    <ol class="ref-list">
+      <li id="ref1">
+        Twenge, J.M., &amp; Campbell, W.K. (2009). <em>The Narcissism Epidemic: Living in the Age of Entitlement.</em> Free Press.
+        <span class="doi">ISBN: 978-1416575993</span>
+      </li>
+      <li id="ref2">
+        Cialdini, R.B. (2009). <em>Influence: Science and Practice</em> (5th ed.). Pearson.
+        <span class="doi">ISBN: 978-0205609994</span>
+      </li>
+      <li id="ref3">
+        Paulhus, D.L., &amp; Williams, K.M. (2002). The Dark Triad of personality: Narcissism, Machiavellianism, and psychopathy. <em>Journal of Research in Personality, 36</em>(6), 556–563.
+        <span class="doi">doi: 10.1016/S0092-6566(02)00505-6</span>
+      </li>
+      <li id="ref4">
+        Bandura, A. (1999). Moral disengagement in the perpetration of inhumanities. <em>Personality and Social Psychology Review, 3</em>(3), 193–209.
+        <span class="doi">doi: 10.1207/s15327957pspr0303_3</span>
+      </li>
+      <li id="ref5">
+        Olyan, S.M. (1994). „And with a male you shall not lie the lying down of a woman": On the meaning and significance of Leviticus 18:22 and 20:13. <em>Journal of the History of Sexuality, 5</em>(2), 179–206. [kontekst: interpretacja profetyczna motywu Sodomy]
+        <span class="doi">JSTOR: 4617073</span>
+      </li>
+      <li id="ref6">
+        Wolff, H.W. (1974). <em>Anthropologie des Alten Testaments.</em> Chr. Kaiser Verlag, München. [Tłum. pol.: Antropologia Starego Testamentu, PAX 1973]
+        <span class="doi">ISBN: 978-3290116804</span>
+      </li>
+      <li id="ref7">
+        Neusner, J. (1999). <em>Introduction to Rabbinic Literature.</em> Doubleday.
+        <span class="doi">ISBN: 978-0385469999</span>
+      </li>
+      <li id="ref8">
+        Vosoughi, S., Roy, D., &amp; Aral, S. (2018). The spread of true and false news online. <em>Science, 359</em>(6380), 1146–1151.
+        <span class="doi">doi: 10.1126/science.aap9559</span>
+      </li>
+      <li id="ref9">
+        Smith, R.H., &amp; Kim, S.H. (2007). Comprehending envy. <em>Psychological Bulletin, 133</em>(1), 46–64.
+        <span class="doi">doi: 10.1037/0033-2909.133.1.46</span>
+      </li>
+      <li id="ref10">
+        Christie, R., &amp; Geis, F.L. (1970). <em>Studies in Machiavellianism.</em> Academic Press.
+        <span class="doi">ISBN: 978-0121743505</span>
+      </li>
+      <li id="ref11">
+        Hare, R.D. (1999). <em>Without Conscience: The Disturbing World of the Psychopaths Among Us.</em> Guilford Press.
+        <span class="doi">ISBN: 978-1572304512</span>
+      </li>
+      <li id="ref12">
+        Merton, R.K. (1938). Social structure and anomie. <em>American Sociological Review, 3</em>(5), 672–682.
+        <span class="doi">doi: 10.2307/2084686</span>
+      </li>
+      <li id="ref13">
+        Babiak, P., &amp; Hare, R.D. (2006). <em>Snakes in Suits: When Psychopaths Go to Work.</em> HarperBusiness.
+        <span class="doi">ISBN: 978-0061147890</span>
+      </li>
+      <li id="ref14">
+        Brown, F., Driver, S.R., &amp; Briggs, C.A. (1907). <em>A Hebrew and English Lexicon of the Old Testament.</em> Oxford: Clarendon Press. [hasło: נֶפֶשׁ, nefesz, s. 659–661]
+      </li>
+      <li id="ref15">
+        Hartley, J.E. (1988). <em>The Book of Job</em> (NICOT). Eerdmans. [Komentarz do Hi 1–2: motyw Sary/Szatana jako prokuratora nefesz]
+        <span class="doi">ISBN: 978-0802825285</span>
+      </li>
+      <li id="ref16">
+        Haidt, J. (2012). <em>The Righteous Mind: Why Good People Are Divided by Politics and Religion.</em> Pantheon Books.
+        <span class="doi">ISBN: 978-0307377906</span>
+      </li>
+      <li id="ref17">
+        Eurobarometer. (2022). <em>Standard Eurobarometer 98: Autumn 2022</em>. European Commission. [dane: interpersonal trust by country]
+        <span class="doi">doi: 10.2838/27244</span>
+      </li>
+      <li id="ref18">
+        Putnam, R.D. (2000). <em>Bowling Alone: The Collapse and Revival of American Community.</em> Simon &amp; Schuster.
+        <span class="doi">ISBN: 978-0743203043</span>
+      </li>
+      <li id="ref19">
+        Zborowski, R. (2019). Toynbee a kwestia upadku cywilizacji: wewnętrzne pęknięcia a destrukcja wartości. <em>Przegląd Filozoficzny, 28</em>(2), 112–128. [artykuł poglądowy]
+      </li>
+    </ol>
+  </section>
+
+</div><!-- /.content-col -->
+</main>
+
+<!-- LICENSE FOOTER -->
+<footer class="license-footer">
+  <div class="license-inner">
+    <div class="cc-badge">
+      <div class="cc-icon-row">
+        <div class="cc-icon">CC</div>
+        <div class="cc-icon">BY</div>
+        <div class="cc-icon">NC</div>
+        <div class="cc-icon">ND</div>
+      </div>
+      <div class="cc-label">CC BY-NC-ND 4.0</div>
+    </div>
+    <div class="license-text">
+      <h4>Informacja o licencji — Creative Commons BY-NC-ND 4.0 International</h4>
+      <p>Niniejszy utwór jest dostępny na licencji <strong style="color:rgba(247,243,236,0.85)">Creative Commons Uznanie autorstwa – Użycie niekomercyjne – Bez utworów zależnych 4.0 Międzynarodowe (CC BY-NC-ND 4.0)</strong>.</p>
+      <p><strong style="color:rgba(247,243,236,0.75)">MOŻESZ:</strong> Dzielić się — kopiować i rozpowszechniać utwór w dowolnym medium i formacie, pod warunkiem zachowania pełnego uznania autorstwa.</p>
+      <p><strong style="color:rgba(247,243,236,0.75)">NIE MOŻESZ:</strong> (1) Używać w celach komercyjnych ani do tworzenia reklam, kampanii czy treści sponsorowanych. (2) Tworzyć i rozpowszechniać materiałów zależnych — adaptacji, tłumaczeń, fragmentarycznych wyciągów, kompilacji ani żadnych form przetworzenia bez pisemnej zgody autora. (3) Usuwać ani modyfikować informacji o licencji i autorstwie.</p>
+      <p><strong style="color:rgba(247,243,236,0.75)">WARUNKI:</strong> Każde udostępnienie musi zawierać czytelną informację o autorze, tytule, roku oraz niniejszej licencji. Brak któregokolwiek z tych elementów stanowi naruszenie warunków licencji.</p>
+      <p>Pełny tekst licencji: <span style="font-family:var(--font-mono);font-size:0.75rem;color:rgba(201,149,42,0.8)">https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.pl</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- =================== JAVASCRIPT =================== -->
+<script>
+// Footnote data
+const footnotes = {
+  1: { text: "Twenge i Campbell (2009) dokumentują korelację między upowszechnieniem mediów społecznościowych a wzrostem wskaźników narcystycznych cech osobowości w populacji ogólnej.", source: "Twenge & Campbell, 2009, rozdz. 3" },
+  2: { text: "Cialdini opisuje mechanizmy automatycznej reakcji społecznej, które umożliwiają skuteczną manipulację bez konieczności posiadania prawdziwej autorytetu merytorycznego.", source: "Cialdini, 2009" },
+  3: { text: "Paulhus & Williams (2002) to kanoniczna praca definiująca triadę. Autorzy wykazali, że trzy konstrukty korelują ze sobą powyżej przypadku, ale zachowują odrębność diagnostyczną.", source: "Paulhus & Williams, 2002, J. Res. Personality" },
+  4: { text: "Bandura (1999) opisuje mechanizm 'moralnego odłączenia' (moral disengagement) — procesy poznawcze pozwalające na działania szkodliwe bez odczuwania dysonansu moralnego. Kluczowe w kontekście środowiskowego wzmacniania patologii.", source: "Bandura, 1999, PSPR" },
+  5: { text: "Prorocy (Ez 16,49-50) wprost wskazują, że grzechem Sodomy była pycha, sytość i obojętność na biednych — nie zaś wyłącznie lub przede wszystkim kwestia seksualna, jak przyjęła interpretacja zachodnia.", source: "Ez 16,49-50; Olyan, 1994" },
+  6: { text: "Wolff (1974) w swojej analizie antropologii Starego Testamentu wykazuje, że nefesz nigdy nie oznacza oddzielonej od ciała duszy. Jest to siła życiowa konkretyzująca się w byciu-w-świecie.", source: "Wolff, Anthropologie des AT, 1974" },
+  7: { text: "Hermeneutyka biblijna obejmuje zarówno analizę filologiczną, jak i kontekstualizację w tradycji targumicznej i midraszy, co pozwala na pełniejsze odczytanie znaczeń symbolicznych niż analiza tekstu samego.", source: "Neusner, 1999" },
+  8: { text: "Vosoughi, Roy & Aral (2018) w badaniu na 126 tys. historii w Twitterze wykazali, że fałszywe informacje rozprzestrzeniają się 6x szybciej niż prawdziwe i docierają do szerszych grup odbiorców.", source: "Vosoughi et al., Science 2018" },
+  9: { text: "Smith & Kim (2007) — meta-analiza badań nad zazdrością i schadenfreude wskazuje, że poziom satysfakcji z cudzego niepowodzenia koreluje z poczuciem niskiej własnej wartości, nie zaś z cechami sadyzmu.", source: "Smith & Kim, Psychol. Bull. 2007" },
+  10: { text: "Christie & Geis (1970) stworzyli skalę makiawelizmu (Mach IV) i wykazali, że osoby o wysokim makiawelizmie są skuteczniejsze w warunkach face-to-face bez jasnych reguł.", source: "Christie & Geis, 1970" },
+  11: { text: "Hare (1999) wskazuje, że psychopatia subkliniczna w środowiskach zawodowych przejawia się nie przemocą fizyczną, lecz emocjonalną eksploatacją i brakiem reakcji na cierpienie innych.", source: "Hare, Without Conscience, 1999" },
+  12: { text: "Merton (1938) — teoria anomii społecznej: gdy struktury kulturowe promują określone cele, a jednocześnie zamykają legalne drogi do ich osiągnięcia, ludzie sięgają po niedozwolone środki.", source: "Merton, Am. Sociol. Rev. 1938" },
+  13: { text: "Babiak & Hare (2006) dokumentują, w jaki sposób środowiska korporacyjne mogą selekcjonować i nagradzać cechy psychopatyczne pod przykrywką 'charyzmy' i 'zdecydowania'.", source: "Babiak & Hare, Snakes in Suits, 2006" },
+  14: { text: "BDB Lexicon (1907) — hasło nefesz zawiera 14 grup znaczeniowych, z których centralną jest 'siła życiowa jako zasada bycia żywym' (vital force as principle of life).", source: "Brown-Driver-Briggs, 1907, s. 659" },
+  15: { text: "W tradycji rabinackiej i Księdze Hioba szatan (Śar/Prokurator) nie jest antagonistą Boga, lecz funkcją — zasadą, która stawia pod znakiem zapytania autentyczność dobra i sensu cierpienia sprawiedliwego.", source: "Hartley, Book of Job, 1988" },
+  16: { text: "Haidt (2012) wykazuje, że moralne oburzenie jest intuicyjną reakcją emocjonalną poprzedzającą rozumowanie, nie jego efektem — co czyni je podatnym na manipulację.", source: "Haidt, The Righteous Mind, 2012" },
+  17: { text: "Eurobarometer 98 (2022): Polska 19% (zaufanie do innych ludzi, pytanie Q2), Dania 74%, UE-27 średnia 38%. Dane CBOS 2022 potwierdzają wartości podobne: 23% deklaruje ogólne zaufanie do ludzi.", source: "Eurobarometer 98, 2022" },
+  18: { text: "Putnam (2000) — badania nad kapitałem społecznym wykazują silną korelację między zaufaniem interpersonalnym a wskaźnikami zdrowia publicznego, przestępczości, efektywności instytucji i dobrostanu.", source: "Putnam, Bowling Alone, 2000" },
+  19: { text: "Zborowski (2019) reinterpretuje Toynbeego w kontekście współczesnych społeczeństw medialnych: cywilizacje nie upadają z powodu 'wyzwań zewnętrznych', lecz gdy tracą zdolność do twórczej odpowiedzi — gdy wewnętrzna 'klasa twórcza' zostaje zastąpiona przez 'klasę dominującą'.", source: "Zborowski, Przegląd Filozoficzny, 2019" }
+};
+
+// Progress bar
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  bar.style.width = (scrolled / total * 100) + '%';
+});
+
+// Sticky nav
+const nav = document.getElementById('sticky-nav');
+const header = document.querySelector('.doc-header');
+const headerBottom = () => header.getBoundingClientRect().bottom;
+window.addEventListener('scroll', () => {
+  if (headerBottom() < 0) nav.classList.add('visible');
+  else nav.classList.remove('visible');
+});
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('#sticky-nav a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`#sticky-nav a[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Footnote panel
+const panel = document.getElementById('footnotes-panel');
+const fnContent = document.getElementById('fn-content');
+document.getElementById('fn-close').addEventListener('click', () => panel.classList.remove('active'));
+
+document.querySelectorAll('.fn-ref').forEach(ref => {
+  ref.addEventListener('click', (e) => {
+    e.preventDefault();
+    const id = ref.getAttribute('data-fn');
+    const fn = footnotes[id];
+    if (!fn) return;
+    fnContent.innerHTML = `<p><span class="fn-num">[${id}]</span>${fn.text}<span class="fn-source">${fn.source}</span></p>`;
+    panel.classList.add('active');
+    // Scroll to reference in list
+    const refEl = document.getElementById(`ref${id}`);
+    if (refEl) refEl.style.background = 'rgba(201,149,42,0.15)';
+    setTimeout(() => { if (refEl) refEl.style.background = ''; }, 2000);
+  });
+});
+
+// Section reveal on scroll
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.section').forEach(s => revealObs.observe(s));
+
+// Close panel on outside click
+document.addEventListener('click', (e) => {
+  if (!panel.contains(e.target) && !e.target.classList.contains('fn-ref')) {
+    panel.classList.remove('active');
+  }
+});
+</script>
+</body>
+</html>
